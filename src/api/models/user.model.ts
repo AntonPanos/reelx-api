@@ -4,9 +4,10 @@ import { IUserModel } from '@/interfaces/user.interface';
 
 const UserSchema: Schema = new Schema(
   {
-    name: { type: String, require: true },
-    surname: { type: String, require: true },
-    email: { type: String, require: true },
+    name: { type: String, required: [true, 'NameRequired'] },
+    surname: { type: String, required: [true, 'SurnameRequired'] },
+    email: { type: String, required: [true, 'EmailRequired'], lowercase: true, unique: true },
+    password: { type: String, required: [true, 'PasswordRequired'], minLength: [8, 'PasswordLength'] },
   },
   {
     timestamps: true,
