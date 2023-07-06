@@ -3,11 +3,12 @@ import { sign } from 'jsonwebtoken';
 import { Types } from 'mongoose';
 
 import { JWT_Secret } from '@/config';
+import Logging from '@/library/logging';
 import { User } from '@/models';
 
-export const max_age = 3 * 24 * 60 * 60;
+const max_age = 3 * 24 * 60 * 60;
 
-export const createToken = (id: string): string => {
+const createToken = (id: string): string => {
   const data = sign(
     {
       id,
@@ -32,8 +33,10 @@ const signup = async (req: Request, res: Response): Promise<Response> => {
     const response = await user.save();
     const token = createToken(user._id);
     res.cookie('authToken', token, { httpOnly: true, maxAge: max_age });
-    return res.status(201).json({ user: response._id });
+
+    return res.status(201).json(response);
   } catch (error) {
+    Logging.error(error);
     return res.status(500).json(error);
   }
 };
