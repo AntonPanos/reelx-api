@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 
 import config from '@/config';
 import Logging from '@/library/logging';
-import { PostRouter, UserRouter } from '@/routes';
+import { AuthRouter, PostRouter, UserRouter } from '@/routes';
 
 const router = express();
 
@@ -51,6 +51,7 @@ const startServer = (): Express => {
   });
 
   /** Routes */
+  router.use('/auth', AuthRouter);
   router.use('/posts', PostRouter);
   router.use('/users', UserRouter);
 

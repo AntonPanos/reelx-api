@@ -1,3 +1,4 @@
+import { genSalt, hash } from 'bcrypt';
 import mongoose, { Schema } from 'mongoose';
 
 import { IUserModel } from '@/interfaces/user.interface';
@@ -13,5 +14,11 @@ const UserSchema: Schema = new Schema(
     timestamps: true,
   }
 );
+
+UserSchema.pre('save', async function (next): Promise<void> {
+  const salt = await genSalt();
+  this.password = await hash(this.password, salt);
+  next();
+});
 
 export default mongoose.model<IUserModel>('User', UserSchema);

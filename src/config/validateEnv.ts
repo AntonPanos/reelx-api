@@ -10,6 +10,7 @@ const validateEnv = (): void => {
     DB_URL: str(),
     DB_DBNAME: str(),
     PORT: port({ default: 3000 }),
+    JWT_SECRET: str(),
   });
 };
 

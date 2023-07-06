@@ -1,24 +1,6 @@
 import { Request, Response } from 'express';
-import mongoose from 'mongoose';
 
 import { User } from '@/models';
-
-const createUser = async (req: Request, res: Response): Promise<Response> => {
-  try {
-    const { name, surname, email } = req.body;
-    const user = new User({
-      _id: new mongoose.Types.ObjectId(),
-      name,
-      surname,
-      email,
-    });
-
-    const response = await user.save();
-    return res.status(201).json(response);
-  } catch (error) {
-    return res.status(500).json(error);
-  }
-};
 
 const getUser = async (req: Request, res: Response): Promise<Response> => {
   try {
@@ -70,4 +52,4 @@ const deleteUser = async (req: Request, res: Response): Promise<Response> => {
   }
 };
 
-export default { createUser, getUser, getUsers, updateUser, deleteUser };
+export default { getUser, getUsers, updateUser, deleteUser };
