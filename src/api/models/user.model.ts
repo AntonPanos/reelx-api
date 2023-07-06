@@ -16,13 +16,8 @@ const UserSchema: Schema = new Schema(
 );
 
 UserSchema.pre('save', async function (next): Promise<void> {
-  const salt = await genSalt();
+  const salt = await genSalt(10);
   this.password = await hash(this.password, salt);
-  next();
-});
-
-UserSchema.post('save', function (doc, next): void {
-  doc.password = undefined;
   next();
 });
 

@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { compare } from 'bcrypt';
 import { sign } from 'jsonwebtoken';
 import { Types } from 'mongoose';
 
@@ -19,7 +20,7 @@ const createToken = (id: string): string => {
   return data;
 };
 
-const signup = async (req: Request, res: Response): Promise<Response> => {
+const register = async (req: Request, res: Response): Promise<Response> => {
   try {
     const { name, surname, email, password } = req.body;
     const user = new User({
@@ -41,6 +42,23 @@ const signup = async (req: Request, res: Response): Promise<Response> => {
   }
 };
 
-// const login = () => {};
+const login = async (req: Request, res: Response): Promise<Response> => {
+  try {
+    const { email, password } = req.body;
+    const user = await User.findOne({ email }).select('password');
+    if (user) {
+      const auth = await compare(password, user.password);
+      if (auth) {
+        const userResponse = await User.findOne({ email });
+        return res.status(200).json(userResponse);
+      }
+      throw Error('Email or Password are wrong');
+    }
+    throw Error('Email or Password are wrong');
+  } catch (error) {
+    Logging.error(error);
+    return res.status(500).json(error);
+  }
+};
 
-export default { signup };
+export default { register, login };

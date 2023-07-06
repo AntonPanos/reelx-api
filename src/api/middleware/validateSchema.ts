@@ -40,4 +40,10 @@ export const Schemas = {
       surname: Joi.string(),
     }),
   },
+  auth: {
+    create: Joi.object<IUser>({
+      email: Joi.string().required(),
+      password: Joi.string().required(),
+    }),
+  },
 };
