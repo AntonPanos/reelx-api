@@ -1,5 +1,5 @@
 import config from '@/config';
-import Logging from '@/library/logging';
+import Logging from '@/library/Logging';
 import connect from '@/utils/connect';
 
 const listen = async (): Promise<void> => {

@@ -25,9 +25,10 @@
   "rules": {
     "prettier/prettier": [1, {}, { "usePrettierrc": true }],
     "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-unused-vars": ["warn"],
     "func-style": ["error", "declaration", { "allowArrowFunctions": true }],
     "no-trailing-spaces": "error",
-    "no-unused-vars": "warn",
+    "no-unused-vars": "off",
     "func-names": "off",
     "eqeqeq": ["error", "always", { "null": "ignore" }],
     "semi": ["error", "always"],

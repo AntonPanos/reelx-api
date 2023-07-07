@@ -12,7 +12,7 @@
     "prestart": "npm run build",
     "start": "node dist/index.js",
     "dev": "tsc-watch --onSuccess \"node ./dist/index.js\"",
-    "build": "tsc",
+    "build": "rm -rf dist && tsc",
     "test": "jest --detectOpenHandles",
     "lint:check": "eslint .",
     "lint:fix": "eslint --fix ."

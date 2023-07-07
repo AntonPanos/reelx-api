@@ -3,7 +3,7 @@ import cookieParser from 'cookie-parser';
 import mongoose from 'mongoose';
 
 import config from '@/config';
-import Logging from '@/library/logging';
+import Logging from '@/library/Logging';
 import { AuthRouter, PostRouter, UserRouter } from '@/routes';
 
 const router = express();

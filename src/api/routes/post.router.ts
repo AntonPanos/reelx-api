@@ -7,7 +7,7 @@ import { Schemas, ValidateSchema } from '@/middleware/validateSchema';
 const router = express.Router();
 
 router.post('/', requireAuth, ValidateSchema(Schemas.post.create), PostController.createPost);
-router.get('/:postId', requireAuth, PostController.getPost);
+router.get('/:postId', PostController.getPost);
 router.get('/', PostController.getPosts);
 router.patch('/:postId', requireAuth, ValidateSchema(Schemas.post.update), PostController.updatePost);
 router.delete('/:postId', requireAuth, PostController.deletePost);
