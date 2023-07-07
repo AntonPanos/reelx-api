@@ -1,9 +1,10 @@
 import express, { Express, NextFunction, Request, Response } from 'express';
+import cookieParser from 'cookie-parser';
 import mongoose from 'mongoose';
 
 import config from '@/config';
 import Logging from '@/library/logging';
-import { PostRouter, UserRouter } from '@/routes';
+import { AuthRouter, PostRouter, UserRouter } from '@/routes';
 
 const router = express();
 
@@ -26,9 +27,14 @@ const startServer = (): Express => {
 
     res.on('finish', () => {
       /** Log the Response */
-      Logging.info(
-        `Result -> Method: [${req.method}] - Url: [${req.url}] - IP: [${req.socket.remoteAddress}] - Status: [${res.statusCode}]`
-      );
+      if (res.statusCode >= 400)
+        Logging.error(
+          `Result -> Method: [${req.method}] - Url: [${req.url}] - IP: [${req.socket.remoteAddress}] - Status: [${res.statusCode}]`
+        );
+      else
+        Logging.info(
+          `Result -> Method: [${req.method}] - Url: [${req.url}] - IP: [${req.socket.remoteAddress}] - Status: [${res.statusCode}]`
+        );
     });
 
     next();
@@ -36,6 +42,7 @@ const startServer = (): Express => {
 
   router.use(express.urlencoded({ extended: true }));
   router.use(express.json());
+  router.use(cookieParser());
 
   /** Rules of API */
   router.use((req: Request, res: Response, next: NextFunction) => {
@@ -51,6 +58,7 @@ const startServer = (): Express => {
   });
 
   /** Routes */
+  router.use('/auth', AuthRouter);
   router.use('/posts', PostRouter);
   router.use('/users', UserRouter);
 
