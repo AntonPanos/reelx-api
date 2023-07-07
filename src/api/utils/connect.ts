@@ -1,4 +1,5 @@
 import express, { Express, NextFunction, Request, Response } from 'express';
+import cookieParser from 'cookie-parser';
 import mongoose from 'mongoose';
 
 import config from '@/config';
@@ -41,6 +42,7 @@ const startServer = (): Express => {
 
   router.use(express.urlencoded({ extended: true }));
   router.use(express.json());
+  router.use(cookieParser());
 
   /** Rules of API */
   router.use((req: Request, res: Response, next: NextFunction) => {

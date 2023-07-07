@@ -33,7 +33,7 @@ const register = async (req: Request, res: Response): Promise<Response> => {
 
     const response = await user.save();
     const token = createToken(user._id);
-    res.cookie('authToken', token, { httpOnly: true, maxAge: max_age });
+    res.cookie('authToken', token, { httpOnly: true, secure: true, maxAge: max_age * 1000 });
 
     return res.status(201).json(response);
   } catch (error) {
@@ -50,6 +50,8 @@ const login = async (req: Request, res: Response): Promise<Response> => {
       const auth = await compare(password, user.password);
       if (auth) {
         const userResponse = await User.findOne({ email });
+        const token = createToken(userResponse?._id);
+        res.cookie('authToken', token, { httpOnly: true, secure: true, maxAge: max_age * 1000 });
         return res.status(200).json(userResponse);
       }
       throw Error('Email or Password are wrong');
