@@ -1,5 +1,6 @@
 import express, { Express, NextFunction, Request, Response } from 'express';
 import cookieParser from 'cookie-parser';
+import cors from 'cors';
 import mongoose from 'mongoose';
 
 import config from '@/config';
@@ -41,12 +42,12 @@ const startServer = (): Express => {
   });
 
   router.use(express.urlencoded({ extended: true }));
+  router.use(cors({ credentials: true, origin: true }));
   router.use(express.json());
   router.use(cookieParser());
 
   /** Rules of API */
   router.use((req: Request, res: Response, next: NextFunction) => {
-    res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
 
     if (req.method === 'OPTIONS') {
