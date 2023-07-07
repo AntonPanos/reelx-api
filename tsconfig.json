@@ -1,11 +1,12 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
-    "module": "NodeNext",
+    "target": "ES6",
+    "module": "CommonJS",
     "rootDir": "src",
     "moduleResolution": "Node",
     "resolveJsonModule": true,
     "sourceMap": false,
+    "outDir": "dist",
     "baseUrl": "./src",
     "paths": {
       "@/config": ["config/index"],
@@ -22,7 +23,6 @@
       "@/utils/*": ["api/utils/*"],
       "@/*": ["*"]
     },
-    "outDir": "dist",
     "newLine": "lf",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,

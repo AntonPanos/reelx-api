@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import mongoose from 'mongoose';
 
+import Logging from '@/library/Logging';
 import { Post } from '@/models';
 
 const createPost = async (req: Request, res: Response): Promise<Response> => {
@@ -15,6 +16,7 @@ const createPost = async (req: Request, res: Response): Promise<Response> => {
     const response = await post.save();
     return res.status(201).json(response);
   } catch (error) {
+    Logging.error(error);
     return res.status(500).json(error);
   }
 };
@@ -27,6 +29,7 @@ const getPost = async (req: Request, res: Response): Promise<Response> => {
     if (post) return res.status(200).json(post);
     else return res.status(404).json({ message: 'NotFound' });
   } catch (error) {
+    Logging.error(error);
     return res.status(500).json(error);
   }
 };
@@ -37,6 +40,7 @@ const getPosts = async (req: Request, res: Response): Promise<Response> => {
 
     return res.status(200).json(posts);
   } catch (error) {
+    Logging.error(error);
     return res.status(500).json(error);
   }
 };
@@ -52,6 +56,7 @@ const updatePost = async (req: Request, res: Response): Promise<Response> => {
       return res.status(200).json(response);
     } else return res.status(404).json({ message: 'NotFound' });
   } catch (error) {
+    Logging.error(error);
     return res.status(500).json(error);
   }
 };
@@ -65,6 +70,7 @@ const deletePost = async (req: Request, res: Response): Promise<Response> => {
       return res.status(201).json(post);
     } else return res.status(404).json({ message: 'NotFound' });
   } catch (error) {
+    Logging.error(error);
     return res.status(500).json(error);
   }
 };

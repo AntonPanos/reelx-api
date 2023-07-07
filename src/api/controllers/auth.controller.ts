@@ -4,19 +4,14 @@ import { sign } from 'jsonwebtoken';
 import { Types } from 'mongoose';
 
 import { JWT_Secret } from '@/config';
-import Logging from '@/library/logging';
+import ErrorHandler, { ErrorType } from '@/library/ErrorHandler';
+import Logging from '@/library/Logging';
 import { User } from '@/models';
 
 const max_age = 3 * 24 * 60 * 60;
 
 const createToken = (id: string): string => {
-  const data = sign(
-    {
-      id,
-    },
-    JWT_Secret,
-    { expiresIn: max_age }
-  );
+  const data = sign({ id }, JWT_Secret, { expiresIn: max_age });
   return data;
 };
 
@@ -52,14 +47,14 @@ const login = async (req: Request, res: Response): Promise<Response> => {
         const userResponse = await User.findOne({ email });
         const token = createToken(userResponse?._id);
         res.cookie('authToken', token, { httpOnly: true, secure: true, maxAge: max_age * 1000 });
+
         return res.status(200).json(userResponse);
       }
-      throw Error('Email or Password are wrong');
     }
-    throw Error('Email or Password are wrong');
-  } catch (error) {
+    throw new ErrorHandler('Email or Password are Invalid', ErrorType.CREDENTIALS, 401);
+  } catch (error: any) {
     Logging.error(error);
-    return res.status(500).json(error);
+    return res.status(error.statusCode).json({ message: error.message, status: error.statusMessage });
   }
 };
 
