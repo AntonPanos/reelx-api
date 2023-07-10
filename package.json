@@ -60,6 +60,7 @@
   "_moduleAliases": {
     "@/config": "dist/config",
     "@/controllers": "dist/api/controllers",
+    "@/helpers": "dist/api/helpers",
     "@/interfaces": "dist/api/interfaces",
     "@/library": "dist/api/library",
     "@/middleware": "dist/api/middleware",

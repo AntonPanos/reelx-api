@@ -2,6 +2,7 @@ import { genSalt, hash } from 'bcrypt';
 import mongoose, { Schema } from 'mongoose';
 
 import { IUserModel } from '@/interfaces/user.interface';
+import Logging from '@/library/Logging';
 
 const UserSchema: Schema = new Schema(
   {
@@ -16,9 +17,13 @@ const UserSchema: Schema = new Schema(
 );
 
 UserSchema.pre('save', async function (next): Promise<void> {
-  const salt = await genSalt(10);
-  this.password = await hash(this.password, salt);
-  next();
+  try {
+    const salt = await genSalt(10);
+    this.password = await hash(this.password, salt);
+    next();
+  } catch (error) {
+    Logging.error(error);
+  }
 });
 
 export default mongoose.model<IUserModel>('User', UserSchema);

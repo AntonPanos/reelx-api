@@ -13,6 +13,8 @@
       "@/config/*": ["config/*"],
       "@/controllers": ["api/controllers/index"],
       "@/controllers/*": ["api/controllers/*"],
+      "@/helpers": ["api/helpers/index"],
+      "@/helpers/*": ["api/helpers/*"],
       "@/interfaces/*": ["api/interfaces/*"],
       "@/library/*": ["api/library/*"],
       "@/middleware/*": ["api/middleware/*"],

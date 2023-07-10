@@ -14,9 +14,16 @@ const connectDB = async (): Promise<Express> => {
     await mongoose.connect(`${config.DB_Path}`, { retryWrites: true });
     Logging.info('Connected to MongoDB');
     const server = startServer();
-    return Promise.resolve(server);
+    process.on('SIGINT', async (): Promise<void> => {
+      await mongoose.connection.close();
+      process.exit(0);
+    });
+    mongoose.connection.on('disconnected', () => {
+      console.log('\nDB disconnected');
+    });
+    return await Promise.resolve(server);
   } catch (error) {
-    return Promise.reject(error);
+    return await Promise.reject(error);
   }
 };
 

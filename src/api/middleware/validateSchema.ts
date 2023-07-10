@@ -50,7 +50,7 @@ export const Schemas = {
         'string.base': 'InvalidSurname',
         'any.required': 'SurnameRequired',
       }),
-      email: Joi.string().email().required().messages({
+      email: Joi.string().email().lowercase().required().messages({
         'string.base': 'InvalidEmail',
         'string.email': 'InvalidEmail',
         'any.required': 'EmailRequired',

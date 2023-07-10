@@ -5,12 +5,14 @@ const validateEnv = (): void => {
     NODE_ENV: str({
       choices: ['development', 'production'],
     }),
+    CLIENT_URL: str(),
     DB_USERNAME: str(),
     DB_PASSWORD: str(),
     DB_URL: str(),
     DB_DBNAME: str(),
     PORT: port({ default: 3000 }),
-    JWT_SECRET: str(),
+    ACCESS_TOKEN_SECRET: str(),
+    REFRESH_TOKEN_SECRET: str(),
   });
 };
 

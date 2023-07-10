@@ -1,19 +1,11 @@
 import { Request, Response } from 'express';
 import { compare } from 'bcrypt';
-import { sign } from 'jsonwebtoken';
 import { Types } from 'mongoose';
 
-import { JWT_Secret } from '@/config';
+import { signAuthToken } from '@/helpers';
 import ErrorHandler, { ErrorType } from '@/library/ErrorHandler';
 import Logging from '@/library/Logging';
 import { User } from '@/models';
-
-const max_age = 3 * 24 * 60 * 60;
-
-const createToken = (id: string): string => {
-  const data = sign({ id }, JWT_Secret, { expiresIn: max_age });
-  return data;
-};
 
 const register = async (req: Request, res: Response): Promise<Response> => {
   try {
@@ -27,8 +19,8 @@ const register = async (req: Request, res: Response): Promise<Response> => {
     });
 
     const response = await user.save();
-    const token = createToken(user._id);
-    res.cookie('authToken', token, { httpOnly: true, secure: true, maxAge: max_age * 1000 });
+    const token = await signAuthToken(response._id);
+    res.setHeader('Authorization', token);
 
     return res.status(201).json(response);
   } catch (error) {
@@ -40,13 +32,13 @@ const register = async (req: Request, res: Response): Promise<Response> => {
 const login = async (req: Request, res: Response): Promise<Response> => {
   try {
     const { email, password } = req.body;
-    const user = await User.findOne({ email }).select('password');
+    const user = await User.findOne({ email }).select(['password']);
     if (user) {
       const auth = await compare(password, user.password);
       if (auth) {
         const userResponse = await User.findOne({ email });
-        const token = createToken(userResponse?._id);
-        res.cookie('authToken', token, { httpOnly: true, secure: true, maxAge: max_age * 1000 });
+        const token = await signAuthToken(userResponse?._id);
+        res.setHeader('Authorization', token);
 
         return res.status(200).json(userResponse);
       }
@@ -58,4 +50,12 @@ const login = async (req: Request, res: Response): Promise<Response> => {
   }
 };
 
-export default { register, login };
+const refreshToken = () => {
+  console.log('Refresh Token');
+};
+
+const logout = () => {
+  console.log('Logout');
+};
+
+export default { register, login, refreshToken, logout };
