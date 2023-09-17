@@ -20,8 +20,8 @@
     "build": "tsc -p tsconfig.node.json",
     "test": "jest --detectOpenHandles",
     "test:watch": "jest --watch",
-    "lint": "eslint src/**/*.ts",
-    "lint:fix": "eslint --fix src/**/*.ts"
+    "lint": "eslint src/",
+    "lint:fix": "eslint --fix src/"
   },
   "author": "Panos Antonellos",
   "license": "MIT",

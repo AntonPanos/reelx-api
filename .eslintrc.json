@@ -1,10 +1,9 @@
 {
   "env": {
-    "es2021": true,
+    "es2022": true,
     "node": true
   },
   "extends": ["plugin:@typescript-eslint/recommended", "plugin:prettier/recommended"],
-  "parser": "@typescript-eslint/parser",
   "settings": {
     "import/resolver": {
       "node": {
@@ -17,21 +16,23 @@
       }
     }
   },
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "ecmaVersion": "latest",
+    "ecmaVersion": 2022,
     "sourceType": "module"
   },
   "plugins": ["@typescript-eslint", "simple-import-sort", "import", "prettier"],
   "rules": {
     "prettier/prettier": [1, {}, { "usePrettierrc": true }],
+    "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/no-explicit-any": "off",
     "func-style": ["error", "declaration", { "allowArrowFunctions": true }],
     "no-trailing-spaces": "error",
-    "no-unused-vars": "warn",
+    "no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
+    "no-param-reassign": ["warn", { "props": false }],
     "func-names": "off",
     "eqeqeq": ["error", "always", { "null": "ignore" }],
     "semi": ["error", "always"],
-    "no-param-reassign": ["warn", { "props": false }],
     "indent": ["error", 2, { "SwitchCase": 1 }],
     "block-spacing": ["error", "always"],
     "simple-import-sort/imports": [
