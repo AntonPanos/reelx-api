@@ -1,13 +1,16 @@
 {
   "compilerOptions": {
-    "target": "ES6",
+    "target": "ES2022",
     "module": "CommonJS",
     "rootDir": "src",
-    "moduleResolution": "Node",
-    "resolveJsonModule": true,
-    "sourceMap": false,
     "outDir": "dist",
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "sourceMap": true,
     "baseUrl": "./src",
+    "strict": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
     "paths": {
       "@/config": ["config/index"],
       "@/config/*": ["config/*"],
@@ -24,12 +27,7 @@
       "@/routes/*": ["api/routes/*"],
       "@/utils/*": ["api/utils/*"],
       "@/*": ["*"]
-    },
-    "newLine": "lf",
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "strict": true,
-    "skipLibCheck": true
+    }
   },
   "exclude": ["node_modules", "dist"],
   "include": ["src/**/*"]
